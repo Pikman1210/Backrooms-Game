@@ -6,7 +6,6 @@ using TMPro;
 
 public class LevelLoader : MonoBehaviour {
 
-    public GameObject welcomeScreen;
     public GameObject loadingScreen;
     public Slider progressBar;
     public TMP_Text progressText;
@@ -20,7 +19,6 @@ public class LevelLoader : MonoBehaviour {
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex); // loads scene into memory in background as async operation
 
-        welcomeScreen.SetActive(false); // disables the welcome screen
         loadingScreen.SetActive(true); // enables the loading screen
 
         while (!operation.isDone) // loops while operation (loading) is NOT done (what the ! means)
