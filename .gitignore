@@ -70,6 +70,8 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Other
 Assets/25 by 25 orthogonal maze.png
 Assets/25 by 25 orthogonal maze.png.meta
 Assets/Materials/20 by 20 orthogonal maze.mat
