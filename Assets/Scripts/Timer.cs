@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using Unity.Services.Analytics;
 using TMPro;
 
 public class Timer : MonoBehaviour {
@@ -13,9 +15,15 @@ public class Timer : MonoBehaviour {
 
     public TextMeshProUGUI currentTimeText;
 
+    Dictionary<string, object> parameters;
+
     void Start()
     {
         currentTime = startMinutes * 60; // stores current time as seconds
+        Dictionary<string, object> parameters = new Dictionary<string, object>()
+        {
+            {"timeAlive", currentTime},
+        };
         startTimer(); // starts as soon as the game begins (maybe change later?)
     }
 
@@ -28,7 +36,7 @@ public class Timer : MonoBehaviour {
             {
                 timerActive = false;
                 currentTimeText.text = "0";
-                Debug.Log("Timer ended");
+                AnalyticsService.Instance.CustomData("timerEnded", parameters);
             }
         }
         TimeSpan time = TimeSpan.FromSeconds(currentTime);

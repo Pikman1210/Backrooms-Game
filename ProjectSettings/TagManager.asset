@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CinemachineTarget
   - Monster
+  - DevBuildText
+  - PlayTesterInfo
   layers:
   - Default
   - TransparentFX

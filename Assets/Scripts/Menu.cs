@@ -3,12 +3,16 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Unity.Services.Analytics;
 using TMPro;
 
 public class Menu : MonoBehaviour {
 
     public AudioMixer audioMixer;
+    public LevelLoader levelLoader;
 
+    // Variables for settings
+    Resolution[] resolutions;
     public TMP_Dropdown resolutionDropdown;
 
     // Panels
@@ -16,7 +20,8 @@ public class Menu : MonoBehaviour {
     public GameObject OptionsPanelObject;
     public GameObject LoadingPanelObject;
 
-    Resolution[] resolutions;
+    // Analytics Parameters
+    // Here be dragons!
 
     private void Start()
     {
@@ -44,22 +49,31 @@ public class Menu : MonoBehaviour {
     }
 
     // Main Menu
-    public void StartGame ()
+    public void StartSurvivalMode ()
     {
-        Debug.Log("Start game");
+        AnalyticsService.Instance.CustomData("loadedSurvivalMode"); // Sends the event message of starting survival mode
+        AnalyticsService.Instance.Flush(); // (Optional) Forces event to send immediately
+
+        levelLoader = FindObjectOfType<LevelLoader>();
+        levelLoader.LoadLevel(1);
     }
 
     public void Quit()
     {
-        Debug.Log("Quit");
-        Application.Quit(); // Quits the game
+#if UNITY_EDITOR
+        // Application.Quit() does not work in the editor so
+        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif
     }
 
     // Settings Menu
 
     public void SetVolume (float volume)
     {
-        audioMixer.SetFloat("masterVolume", volume);
+        audioMixer.SetFloat("volume", volume);
     }
 
     public void setResolution (int resolutionIndex)
