@@ -100,7 +100,7 @@ public class MonsterController : MonoBehaviour {
             return;
 
         // Chooses random point to go to
-        destPoint = Random.Range(0, 19); // (destPoint + 1) % points.Length;
+        destPoint = Random.Range(0, 18); // (destPoint + 1) % points.Length;
 
         // Set the agent to go to the currently selected destination.
         agent.destination = points[destPoint].position;
