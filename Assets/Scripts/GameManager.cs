@@ -5,7 +5,6 @@ using Unity.Services.Core.Environments;
 using Unity.Services.Analytics;
 using System;
 using System.Collections.Generic;
-using TMPro;
 
 public class GameManager : MonoBehaviour {
 
@@ -52,10 +51,8 @@ public class GameManager : MonoBehaviour {
         switch(SceneManager.GetActiveScene().buildIndex) // Checks current scene and does things depending on scene index
         {
             case 0:
-                Debug.Log("menu");
                 break;
             case 1:
-                Debug.Log("survival timed");
                 Cursor.visible = false; // Makes cursor invisible to fix cursor visible bug, make sure to reenable for menus
                 break;
             default:

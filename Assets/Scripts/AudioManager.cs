@@ -37,14 +37,6 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
-    /*void Start()
-    {
-        if (SceneManager.GetActiveScene().buildIndex != 0)
-            Play("Music");
-        else
-            Play("MenuMusic");
-    }*/
-
     public void Play (string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);

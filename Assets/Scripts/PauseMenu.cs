@@ -43,20 +43,20 @@ public class PauseMenu : MonoBehaviour {
 
     public void Restart()
     {
-        FindObjectOfType<GameManager>().Restart(); // Reloads the scene
         Time.timeScale = 1f; // Unpauses the game
         Cursor.lockState = CursorLockMode.Confined; // Confines cursor to window
         Cursor.visible = false; // Makes the cursor invisible
         GameIsPaused = false; // Changing static boolean
+        FindObjectOfType<GameManager>().Restart(); // Reloads the scene
     }
 
     public void QuitToMenu()
     {
-        SceneManager.LoadScene(0); // Loads the main menu
         Time.timeScale = 1f; // Unpauses the game
         Cursor.lockState = CursorLockMode.None; // Unlocks cursor
         Cursor.visible = true; // Makes the cursor visible
         GameIsPaused = false; // Changing static boolean
+        SceneManager.LoadScene(0); // Loads the main menu
     }
 
     public void QuitToOS()
