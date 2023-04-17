@@ -65,11 +65,6 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    void Update()
-    {
-        
-    }
-
     public void Restart()
     {
         // FindObjectOfType<LevelLoader>().LoadLevel(1);

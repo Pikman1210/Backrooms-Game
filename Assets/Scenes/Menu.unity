@@ -7817,37 +7817,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
-    - target: {fileID: 4481156589345644279, guid: a918afdf2dd03b644b46b1c72ab7191b,
-        type: 3}
-      propertyPath: sounds.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4481156589345644279, guid: a918afdf2dd03b644b46b1c72ab7191b,
-        type: 3}
-      propertyPath: sounds.Array.data[0].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: bf259911daebca346b18e1d4d65f7c96, type: 3}
-    - target: {fileID: 4481156589345644279, guid: a918afdf2dd03b644b46b1c72ab7191b,
-        type: 3}
-      propertyPath: sounds.Array.data[0].name
-      value: ClickSFX
-      objectReference: {fileID: 0}
-    - target: {fileID: 4481156589345644279, guid: a918afdf2dd03b644b46b1c72ab7191b,
-        type: 3}
-      propertyPath: sounds.Array.data[0].group
-      value: 
-      objectReference: {fileID: 24300002, guid: 0be7011b31a32354cae1955c4a5f34c1,
-        type: 2}
-    - target: {fileID: 4481156589345644279, guid: a918afdf2dd03b644b46b1c72ab7191b,
-        type: 3}
-      propertyPath: sounds.Array.data[0].pitch
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4481156589345644279, guid: a918afdf2dd03b644b46b1c72ab7191b,
-        type: 3}
-      propertyPath: sounds.Array.data[0].volume
-      value: 0.8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a918afdf2dd03b644b46b1c72ab7191b, type: 3}
 --- !u!1001 &8570313794290142190

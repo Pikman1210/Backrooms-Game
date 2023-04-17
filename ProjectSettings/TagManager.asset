@@ -8,6 +8,7 @@ TagManager:
   - Monster
   - DevBuildText
   - PlayTesterInfo
+  - PatrolPoints
   layers:
   - Default
   - TransparentFX

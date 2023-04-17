@@ -44,4 +44,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b3f77afdb7cef14bac1f3d8c9094fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: ClickSFX
+    clip: {fileID: 8300000, guid: bf259911daebca346b18e1d4d65f7c96, type: 3}
+    group: {fileID: 24300002, guid: 0be7011b31a32354cae1955c4a5f34c1, type: 2}
+    volume: 0.8
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Jumpscare
+    clip: {fileID: 8300000, guid: ace21f7f679a4564ba52d45caa75e111, type: 3}
+    group: {fileID: 24300002, guid: 0be7011b31a32354cae1955c4a5f34c1, type: 2}
+    volume: 0.8
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ChaseScream
+    clip: {fileID: 8300000, guid: 50d0cfd394d906846be4880237926d7b, type: 3}
+    group: {fileID: 24300002, guid: 0be7011b31a32354cae1955c4a5f34c1, type: 2}
+    volume: 0.8
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
