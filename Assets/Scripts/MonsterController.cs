@@ -18,6 +18,8 @@ public class MonsterController : MonoBehaviour {
 
     private int destPoint = 0;
     private bool chasing = false;
+    private bool escapeSequence = false;
+
     private IEnumerator chaseLoop;
 
     [SerializeField]
@@ -25,6 +27,9 @@ public class MonsterController : MonoBehaviour {
 
     [SerializeField]
     private float chaseSpeed = 6; // 5.5 or 6 work (6 prob better idk yet)
+
+    [SerializeField]
+    private float escapeChaseSpeed = 8;
 
     Dictionary<string, object> parameters = new Dictionary<string, object>()
     {
@@ -47,7 +52,7 @@ public class MonsterController : MonoBehaviour {
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer < agroRange && chasing == false)
+        if (distanceToPlayer < agroRange && chasing == false && escapeSequence == false)
         {
             chasing = true;
             GetComponent<NavMeshAgent>().speed = chaseSpeed;
@@ -55,7 +60,7 @@ public class MonsterController : MonoBehaviour {
             StartCoroutine(chaseLoop);
             FindObjectOfType<AudioManager>().Play("ChaseScream");
 
-        } else if (distanceToPlayer > chaseEndRange && chasing == true)
+        } else if (distanceToPlayer > chaseEndRange && chasing == true && escapeSequence == false)
         {
             chasing = false;
             GetComponent<NavMeshAgent>().speed = patrolSpeed;
@@ -63,7 +68,7 @@ public class MonsterController : MonoBehaviour {
             StopCoroutine(chaseLoop);
             GotoNextPoint();
 
-        } else if (!agent.pathPending && agent.remainingDistance < 0.5f && chasing == false)
+        } else if (!agent.pathPending && agent.remainingDistance < 0.5f && chasing == false && escapeSequence == false)
         {
             GotoNextPoint();
         }
@@ -87,10 +92,21 @@ public class MonsterController : MonoBehaviour {
 
     private void StopChase()
     {
-        agent.SetDestination(gameObject.transform.position); // Sets destination to self, basically cancelling paths
         chasing = false;
-        Debug.Log(chasing);
+        GetComponent<NavMeshAgent>().speed = patrolSpeed;
+        chaseLoop = ChasePlayerCoroutine();
+        StopCoroutine(chaseLoop);
         GotoNextPoint();
+    }
+
+    public void DisableMonster()
+    {
+        chasing = false;
+        chaseLoop = ChasePlayerCoroutine();
+        StopCoroutine(chaseLoop);
+        agent.SetDestination(gameObject.transform.position);
+        GetComponent<CapsuleCollider>().enabled = false;
+        this.enabled = false;
     }
 
     private void GotoNextPoint()
@@ -104,6 +120,23 @@ public class MonsterController : MonoBehaviour {
 
         // Set the agent to go to the currently selected destination.
         agent.destination = points[destPoint].position;
+    }
+
+    public void EscapeSequence(int levelType) // Level index for different modes
+    {
+        switch (levelType) // Checks current scene and does things depending on scene index
+        {
+            case 1: // Survival mode
+                Debug.Log("Its pizza time in survival mode");
+                GetComponent<NavMeshAgent>().speed = escapeChaseSpeed;
+                break;
+            case 2:
+                Debug.Log("Its pizza time in _ mode");
+                break;
+            default:
+                Debug.LogWarning("Scene specific code using fallback");
+                break;
+        }
     }
 
     private void OnTriggerEnter(Collider collider)

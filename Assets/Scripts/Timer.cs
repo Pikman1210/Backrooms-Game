@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 using System.Collections.Generic;
 using Unity.Services.Analytics;
@@ -17,6 +18,8 @@ public class Timer : MonoBehaviour {
 
     Dictionary<string, object> parameters;
 
+    private int levelIndex;
+
     void Start()
     {
         currentTime = startMinutes * 60; // stores current time as seconds
@@ -32,11 +35,18 @@ public class Timer : MonoBehaviour {
         if (timerActive == true) // checks if timer is active
         {
             currentTime = currentTime - Time.deltaTime; // decreases time by how many miliseconds since last update
-            if (currentTime <= 0) // activates once timer ends
+            if (currentTime >= 0) // activates once timer ends
             {
+                // Timer visual/analytics code
                 timerActive = false;
                 currentTimeText.text = "0";
                 AnalyticsService.Instance.CustomData("timerEnded", parameters);
+
+                // Escape Sequence code
+                levelIndex = SceneManager.GetActiveScene().buildIndex;
+                FindObjectOfType<MonsterController>().EscapeSequence(levelIndex); // Changes monster to escape mode
+                FindObjectOfType<ObjectiveController>().UpdateObjective("- ESCAPE!"); // Updates objective
+                FindObjectOfType<AudioManager>().Play("EscapeMusic"); // Plays escape music
             }
         }
         TimeSpan time = TimeSpan.FromSeconds(currentTime);

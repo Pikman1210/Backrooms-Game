@@ -66,3 +66,10 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: EscapeMusic
+    clip: {fileID: 8300000, guid: 34da86094f8dac24998bc094650052b6, type: 3}
+    group: {fileID: 24300002, guid: 0be7011b31a32354cae1955c4a5f34c1, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
