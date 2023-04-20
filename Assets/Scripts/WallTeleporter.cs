@@ -7,17 +7,31 @@ public class WallTeleporter : MonoBehaviour {
     [SerializeField]
     private int DestinationIndex;
 
+    [SerializeField]
+    private Vector3 minPosition;
+    
+    [SerializeField]
+    private Vector3 maxPosition;
+
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            Teleport(DestinationIndex);
+            Teleport();
         }
     }
 
-    public void Teleport (int destination)
+    public void Teleport()//(int destination)
     {
-        switch (destination)
+        Vector3 randomPosition = new Vector3(
+            Random.Range(minPosition.x, maxPosition.x),
+            0,
+            Random.Range(minPosition.z, maxPosition.z)
+        );
+
+        player.transform.localPosition = randomPosition;
+
+        /*switch (destination)
         {
             case 0:
                 player.transform.localPosition = new Vector3(0, 0, 0);
@@ -37,7 +51,7 @@ public class WallTeleporter : MonoBehaviour {
             default:
                 Debug.LogWarning("Wall teleport failed, uh oh");
                 break;
-        }
+        } */
 
         Physics.SyncTransforms(); // Super important, actually makes the transform happen!
     }

@@ -112,3 +112,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   DestinationIndex: 0
+  minPosition: {x: -78, y: 0, z: -78}
+  maxPosition: {x: 78, y: 0, z: 78}
