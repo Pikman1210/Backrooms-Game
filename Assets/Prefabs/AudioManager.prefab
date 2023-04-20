@@ -71,5 +71,5 @@ MonoBehaviour:
     group: {fileID: 24300002, guid: 0be7011b31a32354cae1955c4a5f34c1, type: 2}
     volume: 1
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}

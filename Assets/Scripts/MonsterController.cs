@@ -21,6 +21,8 @@ public class MonsterController : MonoBehaviour {
     private bool escapeSequence = false;
 
     private IEnumerator chaseLoop;
+    private IEnumerator monsterSpeedUp;
+    private bool escapeSequenceStarted = false;
 
     [SerializeField]
     private float patrolSpeed = 4;
@@ -29,6 +31,7 @@ public class MonsterController : MonoBehaviour {
     private float chaseSpeed = 6; // 5.5 or 6 work (6 prob better idk yet)
 
     [SerializeField]
+    [Tooltip("With how the speed up script works, this is actually 1 less than what the starting value would be")]
     private float escapeChaseSpeed = 8;
 
     Dictionary<string, object> parameters = new Dictionary<string, object>()
@@ -50,7 +53,20 @@ public class MonsterController : MonoBehaviour {
 
     private void Update()
     {
+        Vector3 playerPosition = player.position;
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (escapeSequence == true && escapeSequenceStarted == false)
+        {
+            escapeSequenceStarted = true;
+
+            chaseLoop = ChasePlayerCoroutine();
+            StartCoroutine(chaseLoop);
+            monsterSpeedUp = MonsterEscapeSpeedUp();
+            StartCoroutine(monsterSpeedUp);
+            FindObjectOfType<AudioManager>().Play("ChaseScream");
+            return;
+        }
 
         if (distanceToPlayer < agroRange && chasing == false && escapeSequence == false)
         {
@@ -82,6 +98,17 @@ public class MonsterController : MonoBehaviour {
 
             // Yield execution of this coroutine and return to the main loop until next frame
             yield return null;
+        }
+    }
+
+    private IEnumerator MonsterEscapeSpeedUp() // Increases monster's speed every minute
+    {
+        while (escapeSequence == true)
+        {
+            escapeChaseSpeed++; // Increases escapeChaseSpeed by 1
+            GetComponent<NavMeshAgent>().speed = escapeChaseSpeed; // Increases monster speed by 1
+
+            yield return new WaitForSeconds(60); // Waits a minute before repeating
         }
     }
 
@@ -124,6 +151,10 @@ public class MonsterController : MonoBehaviour {
 
     public void EscapeSequence(int levelType) // Level index for different modes
     {
+        StopAllCoroutines(); // Stops active coroutines to prepare for constant chase
+        escapeSequence = true; // Sets escapeSequence bool to true for other code
+        chasing = true;
+
         switch (levelType) // Checks current scene and does things depending on scene index
         {
             case 1: // Survival mode

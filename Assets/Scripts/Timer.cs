@@ -35,7 +35,7 @@ public class Timer : MonoBehaviour {
         if (timerActive == true) // checks if timer is active
         {
             currentTime = currentTime - Time.deltaTime; // decreases time by how many miliseconds since last update
-            if (currentTime >= 0) // activates once timer ends
+            if (currentTime <= 0) // activates once timer ends
             {
                 // Timer visual/analytics code
                 timerActive = false;
