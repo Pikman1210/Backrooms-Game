@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
 using Unity.Services.Analytics;
-using System;
 using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
@@ -14,7 +13,11 @@ public class GameManager : MonoBehaviour {
 
     public Transform[] playerSpawns;
 
-    private int spawnPoint;
+    [SerializeField]
+    private Vector3 minPosition;
+
+    [SerializeField]
+    private Vector3 maxPosition;
 
     async void Awake()
     {
@@ -60,15 +63,15 @@ public class GameManager : MonoBehaviour {
             case 1: // Survival Mode
                 Cursor.visible = false; // Makes cursor invisible to fix cursor visible bug, make sure to reenable for menus
 
-                // Returns if no points have been set up
-                if (playerSpawns.Length == 0)
-                    return;
-
-                // Chooses random spawn point of the available options
-                spawnPoint = UnityEngine.Random.Range(0, 9);
+                // Chooses random area in the maze to spawn player
+                Vector3 spawnLocation = new Vector3(
+                    Random.Range(minPosition.x, maxPosition.x),
+                    0,
+                    Random.Range(minPosition.z, maxPosition.z)
+                );
 
                 // Moves player to the selected spawn point
-                player.transform.localPosition = playerSpawns[spawnPoint].position;
+                player.transform.localPosition = spawnLocation;
 
                 // Applies the transform immediatly
                 Physics.SyncTransforms(); 
