@@ -10,6 +10,11 @@ public class GameManager : MonoBehaviour {
 
     public GameObject DevBuildText;
     public GameObject PlayTestUI;
+    public GameObject player;
+
+    public Transform[] playerSpawns;
+
+    private int spawnPoint;
 
     async void Awake()
     {
@@ -50,10 +55,23 @@ public class GameManager : MonoBehaviour {
 
         switch(SceneManager.GetActiveScene().buildIndex) // Checks current scene and does things depending on scene index
         {
-            case 0:
+            case 0: // Main Menu
                 break;
-            case 1:
+            case 1: // Survival Mode
                 Cursor.visible = false; // Makes cursor invisible to fix cursor visible bug, make sure to reenable for menus
+
+                // Returns if no points have been set up
+                if (playerSpawns.Length == 0)
+                    return;
+
+                // Chooses random spawn point of the available options
+                spawnPoint = UnityEngine.Random.Range(0, 9);
+
+                // Moves player to the selected spawn point
+                player.transform.localPosition = playerSpawns[spawnPoint].position;
+
+                // Applies the transform immediatly
+                Physics.SyncTransforms(); 
                 break;
             default:
                 Debug.LogWarning("Scene specific code using fallback");
