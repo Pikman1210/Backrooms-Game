@@ -5,9 +5,8 @@ using UnityEngine;
 public class Escape : MonoBehaviour
 {
 
-    void Start()
+    private void Start()
     {
-        return;
         // Code for spawning and disabiling (visually and colliders) and random spawn here
     }
 

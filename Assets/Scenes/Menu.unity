@@ -3270,9 +3270,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Another Shitty
+  m_text: 'game name
 
-    Backrooms Game'
+    change me'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30017d633167eb340b6ac34cac79d120, type: 2}
   m_sharedMaterial: {fileID: 7735088231007987601, guid: 30017d633167eb340b6ac34cac79d120,
