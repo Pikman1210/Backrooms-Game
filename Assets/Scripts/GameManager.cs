@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour {
                 );
 
                 // Moves player to the selected spawn point
-                // player.transform.localPosition = spawnLocation;
+                player.transform.localPosition = spawnLocation;
 
                 // Applies the transform immediatly
                 Physics.SyncTransforms(); 
