@@ -158,7 +158,6 @@ public class MonsterController : MonoBehaviour {
         switch (levelType) // Checks current scene and does things depending on scene index
         {
             case 1: // Survival mode
-                Debug.Log("Its pizza time in survival mode");
                 GetComponent<NavMeshAgent>().speed = escapeChaseSpeed;
                 break;
             case 2:

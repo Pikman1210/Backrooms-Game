@@ -14,6 +14,7 @@ public class Timer : MonoBehaviour {
     [Tooltip("Displays as seconds")]
     public int startMinutes;
 
+    public GameObject escapeArrow;
     public TextMeshProUGUI currentTimeText;
 
     Dictionary<string, object> parameters;
@@ -44,6 +45,8 @@ public class Timer : MonoBehaviour {
 
                 // Escape Sequence code
                 levelIndex = SceneManager.GetActiveScene().buildIndex;
+                FindObjectOfType<EscapeDoor>().EscapeDoorSpawn();
+                escapeArrow.SetActive(true); // Enables the arrow pointing towards the escape
                 FindObjectOfType<MonsterController>().EscapeSequence(levelIndex); // Changes monster to escape mode
                 FindObjectOfType<ObjectiveController>().UpdateObjective("- ESCAPE!"); // Updates objective
                 FindObjectOfType<AudioManager>().Play("EscapeMusic"); // Plays escape music
