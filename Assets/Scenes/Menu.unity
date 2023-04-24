@@ -1124,7 +1124,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Objectives for current test:'
+  m_text: 'Main Things for current test:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 22ee892560c8ad7409680ea6e45b452f, type: 2}
   m_sharedMaterial: {fileID: 4978203222199338022, guid: 22ee892560c8ad7409680ea6e45b452f,
@@ -1882,16 +1882,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '1. The monster has no AI right now but still has collision/hitbox and
-    will "kill" you.
+  m_text: '1. The lighting is a little fucky, I already know about the shadows :(
 
-    2. Everything has placeholder textures
+    2.
+    The monster is faster than the player, but only a bit
 
-    3. Not sure
-    how I like the maze layout right now so I might change that
-
-    4. The timer
-    does nothing and there is no way to "win".'
+    3. There are a couple
+    "secrets" added, so if you find them good for you! (they''re all the same thing)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 22ee892560c8ad7409680ea6e45b452f, type: 2}
   m_sharedMaterial: {fileID: 4978203222199338022, guid: 22ee892560c8ad7409680ea6e45b452f,
@@ -3270,9 +3267,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Another Shitty
+  m_text: 'game name
 
-    Backrooms Game'
+    change me'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30017d633167eb340b6ac34cac79d120, type: 2}
   m_sharedMaterial: {fileID: 7735088231007987601, guid: 30017d633167eb340b6ac34cac79d120,
@@ -6732,12 +6729,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '1. Check and rate map layout.
+  m_text: '1. How''s the chase like
 
-    2. Rate movement/camera
+    2. How does the escape sequence feel
 
-    3. Try
-    to find bugs <3'
+    3.
+    Report any bugs <3'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 22ee892560c8ad7409680ea6e45b452f, type: 2}
   m_sharedMaterial: {fileID: 4978203222199338022, guid: 22ee892560c8ad7409680ea6e45b452f,
@@ -7383,7 +7380,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Thank you for Play Testing {VALUED TEST SUBJECT}
+  m_text: Thank you for Play Testing {VALUED FORCED LABORER}
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 22ee892560c8ad7409680ea6e45b452f, type: 2}
   m_sharedMaterial: {fileID: 4978203222199338022, guid: 22ee892560c8ad7409680ea6e45b452f,

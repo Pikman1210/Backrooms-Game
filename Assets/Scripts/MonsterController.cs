@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-using Unity.Services.Analytics;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,6 +10,9 @@ public class MonsterController : MonoBehaviour {
     public NavMeshAgent agent;
     public Transform[] points;
 
+    public GameObject mainCam;
+    public GameObject jumpscareCam;
+
     [Tooltip("How many meters/units")]
     public float agroRange; // Default 10
 
@@ -18,13 +21,22 @@ public class MonsterController : MonoBehaviour {
 
     private int destPoint = 0;
     private bool chasing = false;
+    private bool escapeSequence = false;
+
     private IEnumerator chaseLoop;
+    private IEnumerator monsterSpeedUp;
+    private IEnumerator jumpscareWait;
+    private bool escapeSequenceStarted = false;
 
     [SerializeField]
     private float patrolSpeed = 4;
 
     [SerializeField]
     private float chaseSpeed = 6; // 5.5 or 6 work (6 prob better idk yet)
+
+    [SerializeField]
+    [Tooltip("With how the speed up script works, this is actually 1 less than what the starting value would be")]
+    private float escapeChaseSpeed = 8;
 
     Dictionary<string, object> parameters = new Dictionary<string, object>()
     {
@@ -45,9 +57,22 @@ public class MonsterController : MonoBehaviour {
 
     private void Update()
     {
+        Vector3 playerPosition = player.position;
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer < agroRange && chasing == false)
+        if (escapeSequence == true && escapeSequenceStarted == false)
+        {
+            escapeSequenceStarted = true;
+
+            chaseLoop = ChasePlayerCoroutine();
+            StartCoroutine(chaseLoop);
+            monsterSpeedUp = MonsterEscapeSpeedUp();
+            StartCoroutine(monsterSpeedUp);
+            FindObjectOfType<AudioManager>().Play("ChaseScream");
+            return;
+        }
+
+        if (distanceToPlayer < agroRange && chasing == false && escapeSequence == false)
         {
             chasing = true;
             GetComponent<NavMeshAgent>().speed = chaseSpeed;
@@ -55,7 +80,7 @@ public class MonsterController : MonoBehaviour {
             StartCoroutine(chaseLoop);
             FindObjectOfType<AudioManager>().Play("ChaseScream");
 
-        } else if (distanceToPlayer > chaseEndRange && chasing == true)
+        } else if (distanceToPlayer > chaseEndRange && chasing == true && escapeSequence == false)
         {
             chasing = false;
             GetComponent<NavMeshAgent>().speed = patrolSpeed;
@@ -63,7 +88,7 @@ public class MonsterController : MonoBehaviour {
             StopCoroutine(chaseLoop);
             GotoNextPoint();
 
-        } else if (!agent.pathPending && agent.remainingDistance < 0.5f && chasing == false)
+        } else if (!agent.pathPending && agent.remainingDistance < 0.5f && chasing == false && escapeSequence == false)
         {
             GotoNextPoint();
         }
@@ -80,6 +105,25 @@ public class MonsterController : MonoBehaviour {
         }
     }
 
+    private IEnumerator MonsterEscapeSpeedUp() // Increases monster's speed every minute
+    {
+        while (escapeSequence == true)
+        {
+            escapeChaseSpeed++; // Increases escapeChaseSpeed by 1
+            GetComponent<NavMeshAgent>().speed = escapeChaseSpeed; // Increases monster speed by 1
+
+            yield return new WaitForSeconds(60); // Waits a minute before repeating
+        }
+    }
+
+    private IEnumerator JumpscareWait()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(0);
+        // DisableMonster();
+        // StopAllCoroutines();
+    }
+
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
@@ -87,10 +131,21 @@ public class MonsterController : MonoBehaviour {
 
     private void StopChase()
     {
-        agent.SetDestination(gameObject.transform.position); // Sets destination to self, basically cancelling paths
         chasing = false;
-        Debug.Log(chasing);
+        GetComponent<NavMeshAgent>().speed = patrolSpeed;
+        chaseLoop = ChasePlayerCoroutine();
+        StopCoroutine(chaseLoop);
         GotoNextPoint();
+    }
+
+    public void DisableMonster()
+    {
+        chasing = false;
+        chaseLoop = ChasePlayerCoroutine();
+        StopCoroutine(chaseLoop);
+        agent.SetDestination(gameObject.transform.position);
+        GetComponent<CapsuleCollider>().enabled = false;
+        this.enabled = false;
     }
 
     private void GotoNextPoint()
@@ -106,12 +161,37 @@ public class MonsterController : MonoBehaviour {
         agent.destination = points[destPoint].position;
     }
 
+    public void EscapeSequence(int levelType) // Level index for different modes
+    {
+        StopAllCoroutines(); // Stops active coroutines to prepare for constant chase
+        escapeSequence = true; // Sets escapeSequence bool to true for other code
+        chasing = true;
+
+        switch (levelType) // Checks current scene and does things depending on scene index
+        {
+            case 1: // Survival mode
+                GetComponent<NavMeshAgent>().speed = escapeChaseSpeed;
+                break;
+            case 2:
+                Debug.Log("Its pizza time in _ mode");
+                break;
+            default:
+                Debug.LogWarning("Scene specific code using fallback");
+                break;
+        }
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Player")
         {
-            AnalyticsService.Instance.CustomData("died", parameters);
-            FindObjectOfType<GameManager>().Restart();
+            jumpscareWait = JumpscareWait();
+            StartCoroutine(jumpscareWait);
+
+            GetComponent<CapsuleCollider>().enabled = false;
+            mainCam.SetActive(false);
+            jumpscareCam.SetActive(true);
+            FindObjectOfType<AudioManager>().Play("JumpscareScream");
         }
     }
 

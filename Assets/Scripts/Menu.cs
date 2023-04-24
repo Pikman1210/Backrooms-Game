@@ -23,6 +23,12 @@ public class Menu : MonoBehaviour {
     // Analytics Parameters
     // Here be dragons!
 
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     private void Start()
     {
         resolutions = Screen.resolutions;

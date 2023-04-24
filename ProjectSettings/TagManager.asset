@@ -9,6 +9,7 @@ TagManager:
   - DevBuildText
   - PlayTesterInfo
   - PatrolPoints
+  - Escape
   layers:
   - Default
   - TransparentFX
