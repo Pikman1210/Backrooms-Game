@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-using Unity.Services.Analytics;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,6 +9,9 @@ public class MonsterController : MonoBehaviour {
     public Transform player;
     public NavMeshAgent agent;
     public Transform[] points;
+
+    public GameObject mainCam;
+    public GameObject jumpscareCam;
 
     [Tooltip("How many meters/units")]
     public float agroRange; // Default 10
@@ -22,6 +25,7 @@ public class MonsterController : MonoBehaviour {
 
     private IEnumerator chaseLoop;
     private IEnumerator monsterSpeedUp;
+    private IEnumerator jumpscareWait;
     private bool escapeSequenceStarted = false;
 
     [SerializeField]
@@ -112,6 +116,14 @@ public class MonsterController : MonoBehaviour {
         }
     }
 
+    private IEnumerator JumpscareWait()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(0);
+        // DisableMonster();
+        // StopAllCoroutines();
+    }
+
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
@@ -173,8 +185,13 @@ public class MonsterController : MonoBehaviour {
     {
         if (collider.gameObject.tag == "Player")
         {
-            AnalyticsService.Instance.CustomData("died", parameters);
-            FindObjectOfType<GameManager>().Restart();
+            jumpscareWait = JumpscareWait();
+            StartCoroutine(jumpscareWait);
+
+            GetComponent<CapsuleCollider>().enabled = false;
+            mainCam.SetActive(false);
+            jumpscareCam.SetActive(true);
+            FindObjectOfType<AudioManager>().Play("JumpscareScream");
         }
     }
 
