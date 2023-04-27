@@ -1,11 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Single Player/Objective Data", fileName = "New Objective Data")]
-public class ObjectiveData : ScriptableObject
+[CreateAssetMenu(menuName = "Scriptable Objects/Single Player/Objective Data Manager", fileName = "New Objective Data Manager")]
+public class ObjectiveDataManager : ScriptableObject
 {
     public GameObject objectivePrefab;
-
-    public GameObject[] objectiveObjects;
 
     public int totalObjectives;
     public int collectedObjectives;
