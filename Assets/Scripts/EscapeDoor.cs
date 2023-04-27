@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Unity.Services.Analytics;
 
 public class EscapeDoor : MonoBehaviour
 {
@@ -34,6 +33,8 @@ public class EscapeDoor : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
+            AnalyticsService.Instance.CustomData("survivalEscape");
+
             FindObjectOfType<MonsterController>().DisableMonster();
             FindObjectOfType<AudioManager>().Stop("EscapeMusic");
             completionUI.SetActive(true);
