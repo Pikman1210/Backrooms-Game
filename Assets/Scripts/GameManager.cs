@@ -76,6 +76,8 @@ public class GameManager : MonoBehaviour {
                 // Applies the transform immediatly
                 Physics.SyncTransforms(); 
                 break;
+            case 2: // Exploration/No Monster Mode
+                break;
             default:
                 Debug.LogWarning("Scene specific code using fallback");
                 break;
