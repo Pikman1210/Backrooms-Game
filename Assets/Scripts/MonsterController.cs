@@ -26,6 +26,8 @@ public class MonsterController : MonoBehaviour {
     private IEnumerator chaseLoop;
     private IEnumerator monsterSpeedUp;
     private IEnumerator jumpscareWait;
+    private IEnumerator jumpscareWaitEndless;
+
     private bool escapeSequenceStarted = false;
 
     [SerializeField]
@@ -124,18 +126,10 @@ public class MonsterController : MonoBehaviour {
         // StopAllCoroutines();
     }
 
-    private void ChasePlayer()
+    private IEnumerator JumpscareWaitForEndless()
     {
-        agent.SetDestination(player.position);
-    }
-
-    private void StopChase()
-    {
-        chasing = false;
-        GetComponent<NavMeshAgent>().speed = patrolSpeed;
-        chaseLoop = ChasePlayerCoroutine();
-        StopCoroutine(chaseLoop);
-        GotoNextPoint();
+        yield return new WaitForSeconds(2f);
+        FindObjectOfType<EscapeDoorEndless>().EndGameEndless();
     }
 
     public void DisableMonster()
@@ -185,13 +179,29 @@ public class MonsterController : MonoBehaviour {
     {
         if (collider.gameObject.tag == "Player")
         {
-            jumpscareWait = JumpscareWait();
-            StartCoroutine(jumpscareWait);
+            switch (SceneManager.GetActiveScene().buildIndex)
+            {
+                case 4: // Endless Mode
+                    FindObjectOfType<Stopwatch>().stopStopwatch();
 
-            GetComponent<CapsuleCollider>().enabled = false;
-            mainCam.SetActive(false);
-            jumpscareCam.SetActive(true);
-            FindObjectOfType<AudioManager>().Play("JumpscareScream");
+                    jumpscareWaitEndless = JumpscareWaitForEndless();
+                    StartCoroutine(jumpscareWaitEndless);
+
+                    GetComponent<CapsuleCollider>().enabled = false;
+                    mainCam.SetActive(false);
+                    jumpscareCam.SetActive(true);
+                    FindObjectOfType<AudioManager>().Play("JumpscareScream");
+                    break;
+                default:
+                    jumpscareWait = JumpscareWait();
+                    StartCoroutine(jumpscareWait);
+
+                    GetComponent<CapsuleCollider>().enabled = false;
+                    mainCam.SetActive(false);
+                    jumpscareCam.SetActive(true);
+                    FindObjectOfType<AudioManager>().Play("JumpscareScream");
+                    break;
+            }
         }
     }
 

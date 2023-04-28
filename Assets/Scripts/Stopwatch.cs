@@ -34,6 +34,8 @@ public class Stopwatch : MonoBehaviour {
     public void stopStopwatch ()
     {
         timerActive = false;
+        PlayerPrefs.SetFloat("timeSurvived", currentTime);
+        PlayerPrefs.Save();
     }
 
 }
