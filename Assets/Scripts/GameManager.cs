@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour {
             case 3: // Objective Mode
                 break;
             case 4: // Endless Mode
-                // PlayerRandomSpawn();
+                PlayerRandomSpawn();
                 FindObjectOfType<Stopwatch>().startStopwatch();
                 break;
             default:
