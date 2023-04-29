@@ -22,6 +22,7 @@ public class MonsterController : MonoBehaviour {
     private int destPoint = 0;
     private bool chasing = false;
     private bool escapeSequence = false;
+    private bool sightRequired;
 
     private IEnumerator chaseLoop;
     private IEnumerator monsterSpeedUp;
@@ -44,6 +45,19 @@ public class MonsterController : MonoBehaviour {
     {
         {"timeAlive", 0f}, // Change to actually get the amount of time alive instead of 0
     };
+
+    private void Awake()
+    {
+        switch (SceneManager.GetActiveScene().buildIndex)
+        {
+            case 1: // Survival Mode
+                sightRequired = false;
+                break;
+            default:
+                sightRequired = true;
+                break;
+        } // Checks scene and sets if Line Of Sight is required
+    }
 
     private void Start()
     {
