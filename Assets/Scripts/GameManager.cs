@@ -113,6 +113,10 @@ public class GameManager : MonoBehaviour {
         else
         {
             FindObjectOfType<EscapeDoor>().DespawnDoor();
+            escapeArrow.SetActive(false); // Disables the arrow
+            Debug.Log("Monster still needs code for when escape disabled");// FindObjectOfType<MonsterController>(); // Resets monster AI
+            FindObjectOfType<ObjectiveController>().UpdateObjective(" - Survive"); // Resets objective
+            FindObjectOfType<AudioManager>().Stop("EscapeMusic"); // Stops the escape music
         }
     }
 
