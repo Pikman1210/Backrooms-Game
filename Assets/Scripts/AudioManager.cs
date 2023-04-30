@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using System;
+using QFSW.QC;
 
 public class AudioManager : MonoBehaviour {
 
@@ -34,9 +35,11 @@ public class AudioManager : MonoBehaviour {
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
+            s.source.ignoreListenerPause = s.ignorePause;
         }
     }
 
+    [Command("play-audio")]
     public void Play (string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -48,6 +51,7 @@ public class AudioManager : MonoBehaviour {
         s.source.Play();
     }
 
+    [Command("stop-audio")]
     public void Stop (string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -57,6 +61,19 @@ public class AudioManager : MonoBehaviour {
             return;
         }
         s.source.Stop();
+    }
+
+    [Command("pause-audio")]
+    public void PauseAudio(bool paused)
+    {
+        if (paused == true)
+        {
+            AudioListener.pause = true;
+        }
+        else
+        {
+            AudioListener.pause = false;
+        }
     }
 
 }

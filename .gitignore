@@ -73,7 +73,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Other
-Assets/25 by 25 orthogonal maze.png
-Assets/25 by 25 orthogonal maze.png.meta
-Assets/Materials/20 by 20 orthogonal maze.mat
-Assets/Materials/25 by 25 orthogonal maze.mat
+/[Aa]ssets/[Pp]lugins/

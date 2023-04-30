@@ -4,6 +4,7 @@ using Unity.Services.Core;
 using Unity.Services.Core.Environments;
 using Unity.Services.Analytics;
 using System.Collections.Generic;
+using QFSW.QC;
 
 public class GameManager : MonoBehaviour {
 
@@ -99,12 +100,13 @@ public class GameManager : MonoBehaviour {
         Physics.SyncTransforms();
     }
 
+    [Command("escape")]
     public void EscapeSequence(bool active)
     {
         if (active == true)
         {
             levelIndex = SceneManager.GetActiveScene().buildIndex;
-            FindObjectOfType<EscapeDoor>().EscapeDoorSpawn();
+            FindObjectOfType<EscapeDoor>().EscapeDoorSpawn(); // Spawns the door
             escapeArrow.SetActive(true); // Enables the arrow pointing towards the escape
             FindObjectOfType<MonsterController>().EscapeSequence(levelIndex); // Changes monster to escape mode
             FindObjectOfType<ObjectiveController>().UpdateObjective("- ESCAPE!"); // Updates objective

@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using QFSW.QC;
 
 public class MonsterController : MonoBehaviour {
 
@@ -19,9 +20,15 @@ public class MonsterController : MonoBehaviour {
     [Tooltip("How many meters player needs to be away before chase patrols resume")]
     public float chaseEndRange; // Default 20
 
+    [HideInInspector]
+    public bool chasing = false;
+
+    [HideInInspector]
+    public bool patrolling = false;
+
     private int destPoint = 0;
-    private bool chasing = false;
     private bool escapeSequence = false;
+    private bool chaseOverridden = false;
     private bool sightRequired;
 
     private IEnumerator chaseLoop;
@@ -80,6 +87,7 @@ public class MonsterController : MonoBehaviour {
         {
             escapeSequenceStarted = true;
 
+            patrolling = false;
             chaseLoop = ChasePlayerCoroutine();
             StartCoroutine(chaseLoop);
             monsterSpeedUp = MonsterEscapeSpeedUp();
@@ -88,15 +96,16 @@ public class MonsterController : MonoBehaviour {
             return;
         }
 
-        if (distanceToPlayer < agroRange && chasing == false && escapeSequence == false)
+        if (distanceToPlayer < agroRange && chasing == false && escapeSequence == false && chaseOverridden == false)
         {
             chasing = true;
+            patrolling = false;
             GetComponent<NavMeshAgent>().speed = chaseSpeed;
             chaseLoop = ChasePlayerCoroutine();
             StartCoroutine(chaseLoop);
             FindObjectOfType<AudioManager>().Play("ChaseScream");
 
-        } else if (distanceToPlayer > chaseEndRange && chasing == true && escapeSequence == false)
+        } else if (distanceToPlayer > chaseEndRange && chasing == true && escapeSequence == false && chaseOverridden == false)
         {
             chasing = false;
             GetComponent<NavMeshAgent>().speed = patrolSpeed;
@@ -104,7 +113,7 @@ public class MonsterController : MonoBehaviour {
             StopCoroutine(chaseLoop);
             GotoNextPoint();
 
-        } else if (!agent.pathPending && agent.remainingDistance < 0.5f && chasing == false && escapeSequence == false)
+        } else if (!agent.pathPending && agent.remainingDistance < 0.5f && chasing == false && escapeSequence == false && chaseOverridden == false)
         {
             GotoNextPoint();
         }
@@ -146,9 +155,40 @@ public class MonsterController : MonoBehaviour {
         FindObjectOfType<EscapeDoorEndless>().EndGameEndless();
     }
 
+    public void ChasePlayer()
+    {
+        chaseOverridden = true;
+        chasing = true;
+        patrolling = false;
+        GetComponent<NavMeshAgent>().speed = chaseSpeed;
+        chaseLoop = ChasePlayerCoroutine();
+        StartCoroutine(chaseLoop);
+        FindObjectOfType<AudioManager>().Play("ChaseScream");
+    }
+
+    public void StopChasePlayer()
+    {
+        chaseOverridden = false;
+        chasing = false;
+        GetComponent<NavMeshAgent>().speed = patrolSpeed;
+        chaseLoop = ChasePlayerCoroutine();
+        StopCoroutine(chaseLoop);
+        GotoNextPoint();
+    }
+
+    public void EnableMonster()
+    {
+        chasing = false;
+        patrolling = false;
+        GotoNextPoint();
+        GetComponent<CapsuleCollider>().enabled = true;
+        this.enabled = true;
+    }
+
     public void DisableMonster()
     {
         chasing = false;
+        patrolling = false;
         chaseLoop = ChasePlayerCoroutine();
         StopCoroutine(chaseLoop);
         agent.SetDestination(gameObject.transform.position);
@@ -158,6 +198,8 @@ public class MonsterController : MonoBehaviour {
 
     private void GotoNextPoint()
     {
+        patrolling = true;
+
         // Returns if no points have been set up
         if (points.Length == 0)
             return;
