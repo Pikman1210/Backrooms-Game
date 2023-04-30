@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public GameObject DevBuildText;
     public GameObject PlayTestUI;
     public GameObject player;
+    public GameObject escapeArrow;
 
     public Transform[] playerSpawns;
 
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField]
     private Vector3 maxPosition;
+
+    private int levelIndex;
 
     async void Awake()
     {
@@ -96,9 +99,32 @@ public class GameManager : MonoBehaviour {
         Physics.SyncTransforms();
     }
 
+    public void EscapeSequence(bool active)
+    {
+        if (active == true)
+        {
+            levelIndex = SceneManager.GetActiveScene().buildIndex;
+            FindObjectOfType<EscapeDoor>().EscapeDoorSpawn();
+            escapeArrow.SetActive(true); // Enables the arrow pointing towards the escape
+            FindObjectOfType<MonsterController>().EscapeSequence(levelIndex); // Changes monster to escape mode
+            FindObjectOfType<ObjectiveController>().UpdateObjective("- ESCAPE!"); // Updates objective
+            FindObjectOfType<AudioManager>().Play("EscapeMusic"); // Plays escape music
+        } 
+        else
+        {
+            FindObjectOfType<EscapeDoor>().DespawnDoor();
+        }
+    }
+
     public void Restart()
     {
         // FindObjectOfType<LevelLoader>().LoadLevel(1);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Loads current scene, effectively restarting it
     }
+    
+    /*[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
+    private static void OnBeforeSplashScreen()
+    {
+        // any code that should be run before the "Made with Unity" splash screen
+    } */
 }

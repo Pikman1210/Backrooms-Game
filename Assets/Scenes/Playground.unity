@@ -81588,8 +81588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1520230d8b0892c48b97589932cc17a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startMinutes: 3
-  escapeArrow: {fileID: 919132149086437874}
+  startMinutes: 0
   currentTimeText: {fileID: 726696143}
 --- !u!114 &1804731210
 MonoBehaviour:
@@ -91396,6 +91395,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1010022454}
+    - target: {fileID: 7039444085311014647, guid: 5da4f14729166444394b27b110ff8525,
+        type: 3}
+      propertyPath: escapeArrow
+      value: 
+      objectReference: {fileID: 919132149086437874}
     - target: {fileID: 7039444085311014647, guid: 5da4f14729166444394b27b110ff8525,
         type: 3}
       propertyPath: DevBuildText

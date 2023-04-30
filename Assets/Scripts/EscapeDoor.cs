@@ -42,4 +42,10 @@ public class EscapeDoor : MonoBehaviour
             Cursor.visible = true;
         }
     }
+
+    public void DespawnDoor()
+    {
+        transform.localPosition = new Vector3(0, -10, 0);
+        Physics.SyncTransforms();
+    }
 }
