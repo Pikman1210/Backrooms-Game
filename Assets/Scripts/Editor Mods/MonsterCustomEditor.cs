@@ -25,7 +25,10 @@ public class MonsterCustomEditor : Editor {
         {
             EditorGUILayout.LabelField("Patrolling");
         }
-        else
+        else if (EditorApplication.isPlaying == false)
+        {
+            EditorGUILayout.LabelField("In Edit Mode");
+        } else
         {
             EditorGUILayout.LabelField("Disabled");
         }

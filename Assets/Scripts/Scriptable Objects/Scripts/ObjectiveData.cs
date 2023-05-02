@@ -4,6 +4,7 @@ using UnityEngine;
 public class ObjectiveDataManager : ScriptableObject
 {
     public GameObject objectivePrefab;
+    public GameObject spawnZonePrefab;
 
     public int totalObjectives;
     public int collectedObjectives;

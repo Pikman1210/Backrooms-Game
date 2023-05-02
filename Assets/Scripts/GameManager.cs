@@ -65,11 +65,13 @@ public class GameManager : MonoBehaviour {
             case 0: // Main Menu
                 break;
             case 1: // Survival Mode
+                FindObjectOfType<Timer>().StartTimer();
                 PlayerRandomSpawn();
                 break;
             case 2: // Exploration/No Monster Mode
                 break;
             case 3: // Objective Mode
+                FindObjectOfType<Timer>().StartTimer();
                 break;
             case 4: // Endless Mode
                 PlayerRandomSpawn();

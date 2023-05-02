@@ -18,17 +18,17 @@ public class Timer : MonoBehaviour {
 
     Dictionary<string, object> parameters;
 
-    void Start()
+    private void Start()
     {
         currentTime = startMinutes * 60; // stores current time as seconds
         Dictionary<string, object> parameters = new Dictionary<string, object>()
         {
             {"timeAlive", currentTime},
         };
-        startTimer(); // starts as soon as the game begins (maybe change later?)
+        // startTimer(); // starts as soon as the game begins (maybe change later?)
     }
 
-    void Update()
+    private void Update()
     {
         if (timerActive == true) // checks if timer is active
         {
@@ -49,12 +49,12 @@ public class Timer : MonoBehaviour {
         currentTimeText.text = currentTime.ToString();
     }
 
-    public void startTimer ()
+    public void StartTimer ()
     {
         timerActive = true;
     }
 
-    public void stopTimer ()
+    public void StopTimer ()
     {
         timerActive = false;
     }

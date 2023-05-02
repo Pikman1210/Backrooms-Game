@@ -10,10 +10,10 @@ using System.Reflection;
 [InitializeOnLoad]
 public class ReadmeEditor : Editor {
 	
-	static string kShowedReadmeSessionStateName = "ReadmeEditor.showedReadme";
+	// static string kShowedReadmeSessionStateName = "ReadmeEditor.showedReadme";
 	
 	static float kSpace = 16f;
-	
+	/*
 	static ReadmeEditor()
 	{
 		EditorApplication.delayCall += SelectReadmeAutomatically;
@@ -32,7 +32,7 @@ public class ReadmeEditor : Editor {
 				readme.loadedLayout = true;
 			}
 		} 
-	}
+	}*/
 	
 	static void LoadLayout()
 	{
