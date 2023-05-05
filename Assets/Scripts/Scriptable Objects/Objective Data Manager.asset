@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Objective Data Manager
   m_EditorClassIdentifier: Assembly-CSharp::ObjectiveDataManager
   objectivePrefab: {fileID: 0}
-  totalObjectives: 0
+  spawnZonePrefab: {fileID: 0}
+  totalObjectives: 5
   collectedObjectives: 0

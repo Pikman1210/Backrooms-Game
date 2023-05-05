@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d77f1482b53d531419b846a11380c548, type: 3}
   m_Name: Objective 3
   m_EditorClassIdentifier: 
-  ID: 0
+  ID: 2
   spawnZone: 0
   collected: 0
