@@ -41,6 +41,8 @@ public class Timer : MonoBehaviour {
                 AnalyticsService.Instance.CustomData("timerEnded", parameters);
 
                 FindObjectOfType<EventManager>().Panic(true);
+
+                this.enabled = false;
             }
         }
         TimeSpan time = TimeSpan.FromSeconds(currentTime);

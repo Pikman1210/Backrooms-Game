@@ -251,7 +251,17 @@ public class MonsterController : MonoBehaviour {
         }
         else
         {
-            Debug.LogWarning("Monster still needs code for when escape disabled");
+            escapeSequence = false;
+            GetComponent<NavMeshAgent>().speed = patrolSpeed;
+            escapeChaseSpeed = 8;
+            if (Vector3.Distance(transform.position, player.position) < agroRange)
+            {
+                chasing = true;
+            }
+            else
+            {
+                chasing = false;
+            }
         }
     }
 

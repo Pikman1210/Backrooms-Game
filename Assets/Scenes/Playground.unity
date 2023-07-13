@@ -91379,11 +91379,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EscapeArrow
       objectReference: {fileID: 0}
-    - target: {fileID: 3275867265774614202, guid: 3d45798bf423ede48b4f7e0ed79ad224,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d45798bf423ede48b4f7e0ed79ad224, type: 3}
 --- !u!4 &3571526821704614643 stripped
