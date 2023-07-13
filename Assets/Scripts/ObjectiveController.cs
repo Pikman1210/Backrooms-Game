@@ -18,9 +18,30 @@ public class ObjectiveController : MonoBehaviour {
 
     }
 
+    private void OnEnable()
+    {
+        EventManager.PanicSurvival += EscapeObjectiveToggle;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.PanicSurvival -= EscapeObjectiveToggle;
+    }
+
     public void UpdateObjective (string objectiveText)
     {
         GetComponent<TextMeshProUGUI>().text = objectiveText;
+    }
+
+    private void EscapeObjectiveToggle (bool active)
+    {
+        if (active == true) {
+            UpdateObjective("- ESCAPE!");
+        }
+        else
+        {
+            UpdateObjective("- Survive");
+        }
     }
 
 }

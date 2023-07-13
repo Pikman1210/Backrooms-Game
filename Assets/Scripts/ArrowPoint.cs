@@ -8,6 +8,16 @@ public class ArrowPoint : MonoBehaviour
     [SerializeField]
     private Vector3 door;
 
+    private void OnEnable()
+    {
+        EventManager.PanicSurvival += VisualToggle;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.PanicSurvival -= VisualToggle;
+    }
+
     private void Update()
     {
         door.x = doorTransform.position.x;
@@ -20,5 +30,17 @@ public class ArrowPoint : MonoBehaviour
         }
 
         transform.LookAt(door); // Looks at the door
+    }
+
+    private void VisualToggle (bool active)
+    {
+        if (active == true)
+        {
+            GetComponent<MeshRenderer>().enabled = true;
+        }
+        else
+        {
+            GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 }

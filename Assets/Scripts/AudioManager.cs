@@ -39,6 +39,16 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
+    private void OnEnable()
+    {
+        EventManager.PanicSurvival += EscapeMusicToggle;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.PanicSurvival -= EscapeMusicToggle;
+    }
+
     [Command("play-audio")]
     public void Play (string name)
     {
@@ -73,6 +83,18 @@ public class AudioManager : MonoBehaviour {
         else
         {
             AudioListener.pause = false;
+        }
+    }
+
+    private void EscapeMusicToggle(bool active)
+    {
+        if (active == true)
+        {
+            Play("EscapeMusic");
+        }
+        else
+        {
+            Stop("EscapeMusic");
         }
     }
 

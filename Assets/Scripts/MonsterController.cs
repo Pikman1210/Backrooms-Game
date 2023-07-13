@@ -78,6 +78,16 @@ public class MonsterController : MonoBehaviour {
         GotoNextPoint();
     }
 
+    private void OnEnable() // Subscribe to events
+    {
+        EventManager.PanicSurvival += EscapeSequence;
+    }
+
+    private void OnDisable() // Unsubscribe from events
+    {
+        EventManager.PanicSurvival -= EscapeSequence;
+    }
+
     private void Update()
     {
         Vector3 playerPosition = player.position;
@@ -155,6 +165,7 @@ public class MonsterController : MonoBehaviour {
         FindObjectOfType<EscapeDoorEndless>().EndGameEndless();
     }
 
+    [Command("chase", "Starts the monster chasing the player")]
     public void ChasePlayer()
     {
         chaseOverridden = true;
@@ -166,6 +177,7 @@ public class MonsterController : MonoBehaviour {
         FindObjectOfType<AudioManager>().Play("ChaseScream");
     }
 
+    [Command("stopchase", "Stops the monster chasing the player")]
     public void StopChasePlayer()
     {
         chaseOverridden = false;
@@ -211,23 +223,35 @@ public class MonsterController : MonoBehaviour {
         agent.destination = points[destPoint].position;
     }
 
-    public void EscapeSequence(int levelType) // Level index for different modes
+    public void EscapeSequence(bool active) // Level index for different modes
     {
-        StopAllCoroutines(); // Stops active coroutines to prepare for constant chase
-        escapeSequence = true; // Sets escapeSequence bool to true for other code
-        chasing = true;
-
-        switch (levelType) // Checks current scene and does things depending on scene index
+        if (active == true)
         {
-            case 1: // Survival mode
-                GetComponent<NavMeshAgent>().speed = escapeChaseSpeed;
-                break;
-            case 2:
-                Debug.Log("Its pizza time in _ mode");
-                break;
-            default:
-                Debug.LogWarning("Scene specific code using fallback");
-                break;
+            StopAllCoroutines(); // Stops active coroutines to prepare for constant chase
+
+            escapeSequence = true; // Sets escapeSequence bool to true for other code
+
+            chasing = true; // Starts chase
+
+            GetComponent<NavMeshAgent>().speed = escapeChaseSpeed; // Increases base speed at start
+
+            /*
+            switch (levelType) // Checks current scene and does things depending on scene index
+            {
+                case 1: // Survival mode
+                    GetComponent<NavMeshAgent>().speed = escapeChaseSpeed;
+                    break;
+                case 2:
+                    Debug.Log("Its pizza time in _ mode");
+                    break;
+                default:
+                    Debug.LogWarning("Scene specific code using fallback");
+                    break;
+            } */
+        }
+        else
+        {
+            Debug.LogWarning("Monster still needs code for when escape disabled");
         }
     }
 

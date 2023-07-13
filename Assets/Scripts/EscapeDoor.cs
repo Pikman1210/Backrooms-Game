@@ -15,18 +15,37 @@ public class EscapeDoor : MonoBehaviour
     [Tooltip("Corresponds to the respective element number of spawn point")]
     private Quaternion[] rotationSets;
 
-    public void EscapeDoorSpawn()
+    private void OnEnable()
     {
-        int spawnIndex = Random.Range(0, spawnPoints.Length); // Gets a random set from the possible locations
-        setSpawnArea = spawnPoints[spawnIndex]; // Sets a Vector3 using the random location
+        EventManager.PanicSurvival += EscapeDoorSpawn;
+    }
 
-        transform.localPosition = setSpawnArea; // Sets the door's position
+    private void OnDisable()
+    {
+        EventManager.PanicSurvival -= EscapeDoorSpawn;
+    }
 
-        setRotation = rotationSets[spawnIndex]; // Sets a Quaternion using the random location
+    public void EscapeDoorSpawn(bool active)
+    {
+        if (active == true)
+        {
+            int spawnIndex = Random.Range(0, spawnPoints.Length); // Gets a random set from the possible locations
+            setSpawnArea = spawnPoints[spawnIndex]; // Sets a Vector3 using the random location
 
-        transform.localRotation = setRotation; // Sets the door's rotation
+            transform.localPosition = setSpawnArea; // Sets the door's position
 
-        Physics.SyncTransforms(); // Makes sure the transform gets fully updated
+            setRotation = rotationSets[spawnIndex]; // Sets a Quaternion using the random location
+
+            transform.localRotation = setRotation; // Sets the door's rotation
+
+            Physics.SyncTransforms(); // Makes sure the transform gets fully updated
+        }
+        else
+        {
+            transform.localPosition = new Vector3(0, -10, 0);
+            Physics.SyncTransforms();
+        }
+        
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -41,11 +60,5 @@ public class EscapeDoor : MonoBehaviour
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
         }
-    }
-
-    public void DespawnDoor()
-    {
-        transform.localPosition = new Vector3(0, -10, 0);
-        Physics.SyncTransforms();
     }
 }

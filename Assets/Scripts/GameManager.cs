@@ -8,10 +8,11 @@ using QFSW.QC;
 
 public class GameManager : MonoBehaviour {
 
+    // public static GameManager instance { get; private set; }
+
     public GameObject DevBuildText;
     public GameObject PlayTestUI;
     public GameObject player;
-    public GameObject escapeArrow;
 
     public Transform[] playerSpawns;
 
@@ -21,10 +22,17 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private Vector3 maxPosition;
 
-    private int levelIndex;
-
-    async void Awake()
+    private async void Awake()
     {
+        /*if (instance != null && instance != this)
+        {
+            Destroy(this);
+        } 
+        else
+        {
+            instance = this;
+        }*/
+
         if (Debug.isDebugBuild)
         {
             var options = new InitializationOptions();
@@ -55,7 +63,7 @@ public class GameManager : MonoBehaviour {
         {
             DevBuildText.SetActive(true);
             PlayTestUI.SetActive(true);
-        } else if (Debug.isDebugBuild)
+        } else if (Debug.isDebugBuild && SceneManager.GetActiveScene().name != "Testing 1")
         {
             DevBuildText.SetActive(true);
         }
@@ -100,28 +108,6 @@ public class GameManager : MonoBehaviour {
 
         // Applies the transform immediatly
         Physics.SyncTransforms();
-    }
-
-    [Command("escape")]
-    public void EscapeSequence(bool active)
-    {
-        if (active == true)
-        {
-            levelIndex = SceneManager.GetActiveScene().buildIndex;
-            FindObjectOfType<EscapeDoor>().EscapeDoorSpawn(); // Spawns the door
-            escapeArrow.SetActive(true); // Enables the arrow pointing towards the escape
-            FindObjectOfType<MonsterController>().EscapeSequence(levelIndex); // Changes monster to escape mode
-            FindObjectOfType<ObjectiveController>().UpdateObjective("- ESCAPE!"); // Updates objective
-            FindObjectOfType<AudioManager>().Play("EscapeMusic"); // Plays escape music
-        } 
-        else
-        {
-            FindObjectOfType<EscapeDoor>().DespawnDoor();
-            escapeArrow.SetActive(false); // Disables the arrow
-            Debug.Log("Monster still needs code for when escape disabled");// FindObjectOfType<MonsterController>(); // Resets monster AI
-            FindObjectOfType<ObjectiveController>().UpdateObjective(" - Survive"); // Resets objective
-            FindObjectOfType<AudioManager>().Stop("EscapeMusic"); // Stops the escape music
-        }
     }
 
     public void Restart()

@@ -40,7 +40,7 @@ public class Timer : MonoBehaviour {
                 currentTimeText.text = "0";
                 AnalyticsService.Instance.CustomData("timerEnded", parameters);
 
-                FindObjectOfType<GameManager>().EscapeSequence(true);
+                FindObjectOfType<EventManager>().Panic(true);
             }
         }
         TimeSpan time = TimeSpan.FromSeconds(currentTime);
